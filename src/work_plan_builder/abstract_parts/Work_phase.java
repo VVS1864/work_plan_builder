@@ -8,7 +8,7 @@ public class Work_phase {
 			this.name = name;
 			this.duration = duration;
 		}
-		
+				
 		public String get_name() {
 			return name;
 		}
