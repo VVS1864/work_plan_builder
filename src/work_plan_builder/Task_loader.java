@@ -17,8 +17,8 @@ public class Task_loader {
 		delivery_days.add(DayOfWeek.THURSDAY);
 		delivery_days.add(DayOfWeek.MONDAY);
 		
-		List<Work_process> list_of_processes_1 = new ArrayList<>(2);
-		list_of_processes_1.add(new Work_process("bas_st1", 5));
+		List<Work_process> list_of_processes_1 = new ArrayList<>();
+		list_of_processes_1.add(new Work_process("bas_st1", 4));
 		list_of_processes_1.add(new Work_process("bas_st2", 15));
 		
 		tasks[0] = new Work_task("basil", 0.4, 11, delivery_days, list_of_processes_1);

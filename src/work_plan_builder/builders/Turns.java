@@ -17,6 +17,7 @@ public class Turns {
 	private LocalDate start_work_plan_date;
 	
 	public Turns(Work_task[] tasks, LocalDate start_work_plan_date){
+		this.tasks = tasks;
 		this.start_work_plan_date = start_work_plan_date;
 		for(Work_task task: tasks) {
 			List<Turn> new_turns = make_turns(task);
@@ -39,7 +40,7 @@ public class Turns {
 			String turn_type = task.get_production_type();
 			LocalDate end_work_date = calc_end_work_date(delivery_days, work_period, start_day);
 			LocalDate start_work_date = end_work_date.minusDays(work_period);
-			turns.add(new Turn(name, turn_type, productivity, production, delivery_days, task.get_list_of_operation(), start_work_date, end_work_date, work_period));
+			turns.add(new Turn(name, turn_type, productivity, production, task.get_list_of_operation(), start_work_date, units_quantity));
 			start_day = start_work_date.plusDays(1);
 		}
 		for(Turn t: turns) {
