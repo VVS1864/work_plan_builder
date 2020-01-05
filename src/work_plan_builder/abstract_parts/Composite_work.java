@@ -1,6 +1,5 @@
 package work_plan_builder.abstract_parts;
 
-import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class Composite_work {
 		for(Work_process f: list_of_operation) {
 			work_period+=f.get_duration();
 		}
-		//work_period-=1; //because first day is considerable!!!!!!!
+		
 		return work_period;
 	}
 

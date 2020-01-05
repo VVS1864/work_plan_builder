@@ -1,6 +1,7 @@
 package work_plan_builder.plan_parts;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import work_plan_builder.abstract_parts.Composite_work;
@@ -23,12 +24,13 @@ public class Turn extends Composite_work{
 	}
 	
 	private void make_processes(List<Work_process> list_of_processes) {
+		list_of_operation = new ArrayList<Work_process>();
 		LocalDate start_proc_date = start_date;
 		for(Work_process phase: list_of_processes) {
 			LocalDate end_proc_date = start_proc_date.plusDays(phase.get_duration());
-			this.list_of_operation.add(new Work_process(phase.get_name(), phase.get_duration(), start_proc_date, end_proc_date, units_quantity));
+			list_of_operation.add(new Work_process(phase.get_name(), phase.get_duration(), start_proc_date, end_proc_date, units_quantity));
 			start_proc_date = end_proc_date;
-			list_of_operation.get(list_of_operation.size()-1).print_values();;
+			//list_of_operation.get(list_of_operation.size()-1).print_values();
 		}
 		
 	}

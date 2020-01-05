@@ -15,6 +15,8 @@ public class Turns {
 	private Work_task[] tasks;
 	private List<Turn> turns = new ArrayList<>();
 	private LocalDate start_work_plan_date;
+	private LocalDate end_last_work_date;
+	private int work_period = 0;
 	
 	public Turns(Work_task[] tasks, LocalDate start_work_plan_date){
 		this.tasks = tasks;
@@ -22,6 +24,13 @@ public class Turns {
 		for(Work_task task: tasks) {
 			List<Turn> new_turns = make_turns(task);
 			turns.addAll(new_turns);
+		}
+		calc_work_period();
+	}
+	
+	private void calc_work_period() {
+		for(Turn t: turns) {
+			work_period += t.get_work_period();
 		}
 	}
 
@@ -63,4 +72,34 @@ public class Turns {
 		return end_work_date;
 		
 	}
+	
+	public int get_turns_quantity() {
+		return turns.size();
+	}
+	
+	public int get_prosesses_quantity() {
+		int proc_num = 0;
+		for(Turn t: turns) {
+			proc_num += t.get_list_of_operation().size();
+		}
+		
+		return proc_num;
+	}
+	
+	public LocalDate get_end_work_date() {
+		return end_last_work_date;
+	}
+	
+	public LocalDate get_start_work_date() {
+		return start_work_plan_date;
+	}
+	
+	public int get_work_period() {
+		return work_period;
+	}
+	
+	public List<Turn> get_turns() {
+		return turns;
+	}
+	
 }

@@ -28,7 +28,7 @@ public class Task_loader {
 	}
 	
 	LocalDate get_start_work_plan_date() {
-		return LocalDate.of(2019, 11, 20);
+		return LocalDate.of(2019, 11, 19);
 	}
 	
 	Work_task[] get_task_list() {
