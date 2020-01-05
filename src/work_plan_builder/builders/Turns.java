@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import work_plan_builder.abstract_parts.Work_process;
+import work_plan_builder.abstract_parts.Hard_work;
 import work_plan_builder.plan_parts.Turn;
 import work_plan_builder.plan_parts.Work_task;
 
@@ -45,7 +45,8 @@ public class Turns {
 		
 		LocalDate start_day = start_work_plan_date;
 		for(int i = 0; i<turns_quantity; i++) {
-			String name = String.format("%03d", name_count++);
+			name_count++;
+			String name = String.format("%03d", name_count);
 			String turn_type = task.get_production_type();
 			LocalDate end_work_date = calc_end_work_date(delivery_days, work_period, start_day);
 			LocalDate start_work_date = end_work_date.minusDays(work_period);
