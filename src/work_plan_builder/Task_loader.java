@@ -9,7 +9,7 @@ import work_plan_builder.abstract_parts.Work_process;
 import work_plan_builder.plan_parts.Work_task;
 
 public class Task_loader {
-	private Work_task[] tasks = new Work_task[1];
+	private Work_task[] tasks = new Work_task[2];
 	
 	public Task_loader(){
 		//Temporal hardcode
@@ -18,11 +18,15 @@ public class Task_loader {
 		delivery_days.add(DayOfWeek.MONDAY);
 		
 		List<Work_process> list_of_processes_1 = new ArrayList<>();
-		list_of_processes_1.add(new Work_process("bas_st1", 4));
-		list_of_processes_1.add(new Work_process("bas_st2", 15));
+		list_of_processes_1.add(new Work_process("Проращивание", 4));
+		list_of_processes_1.add(new Work_process("Аэропоника", 15));
+		tasks[0] = new Work_task("Базилик", 0.4, 11, delivery_days, list_of_processes_1);
 		
-		tasks[0] = new Work_task("basil", 0.4, 11, delivery_days, list_of_processes_1);
-		tasks[0].print_values();
+		list_of_processes_1 = new ArrayList<>();
+		list_of_processes_1.add(new Work_process("Проращивание", 2));
+		list_of_processes_1.add(new Work_process("Аэропоника", 6));
+		tasks[1] = new Work_task("Подсолнечник", 0.4, 11, delivery_days, list_of_processes_1);
+		//tasks[0].print_values();
 		
 		//Temporal hardcode
 	}
