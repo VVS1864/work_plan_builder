@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import work_plan_builder.builders.Plan_table_builder;
 import work_plan_builder.builders.Turns;
 import work_plan_builder.builders.Work_plan_builder;
+import work_plan_builder.farm.Farm;
 
 public class Core {
 	private Task_loader task_from_file;
@@ -15,15 +16,16 @@ public class Core {
 	public Core(){
 		
 		load_task();
-		calc_turns();
+		Farm farm = new Farm();
+		calc_turns(farm);
 		build_plan_table();
 		build_work_plan();
 		write_plans_to_ods();
 		
 	}
 
-	private void calc_turns() {
-		calculated_turns = new Turns(task_from_file.get_task_list(), task_from_file.get_start_work_plan_date());
+	private void calc_turns(Farm farm) {
+		calculated_turns = new Turns(farm, task_from_file.get_task_list(), task_from_file.get_start_work_plan_date());
 		
 	}
 

@@ -5,7 +5,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import work_plan_builder.Production_type;
 import work_plan_builder.abstract_parts.Hard_work;
+import work_plan_builder.farm.Box;
+import work_plan_builder.farm.Farm;
 import work_plan_builder.plan_parts.Turn;
 import work_plan_builder.plan_parts.Work_task;
 
@@ -17,8 +20,10 @@ public class Turns {
 	private LocalDate start_work_plan_date;
 	private LocalDate end_last_work_date;
 	private int work_period = 0;
+	private Farm farm;
 	
-	public Turns(Work_task[] tasks, LocalDate start_work_plan_date){
+	public Turns(Farm farm, Work_task[] tasks, LocalDate start_work_plan_date){
+		this.farm = farm;
 		this.tasks = tasks;
 		this.start_work_plan_date = start_work_plan_date;
 		for(Work_task task: tasks) {
@@ -44,14 +49,47 @@ public class Turns {
 		List<DayOfWeek> delivery_days = task.get_delivery_days();
 		
 		LocalDate start_day = start_work_plan_date;
+		String turn_type = task.get_production_type();
+		
+		//Temporal hardcode
+		Production_type prod = Production_type.middle;
+		String[] low = {"Подсолнечник", "Горох"};
+		String[] mid = {"Мизуна", "Горчица", "Редис"};
+		String[] high = {"Базилик микро", "Подсолнечник", "Горох"};
+		for (String s: low){
+			if(turn_type.equals(s)) {
+				prod = Production_type.heavy;
+			}
+		}
+		for (String s: mid){
+			if(turn_type.equals(s)) {
+				prod = Production_type.middle;
+			}
+		}
+		for (String s: high){
+			if(turn_type.equals(s)) {
+				prod = Production_type.light;
+			}
+		}
+		//Temporal hardcode
+		
 		for(int i = 0; i<turns_quantity; i++) {
 			name_count++;
 			String name = String.format("%03d", name_count);
-			String turn_type = task.get_production_type();
+			
+			
 			LocalDate end_work_date = calc_end_work_date(delivery_days, work_period, start_day);
 			LocalDate start_work_date = end_work_date.minusDays(work_period);
-			turns.add(new Turn(name, turn_type, productivity, production, task.get_list_of_operation(), start_work_date, units_quantity));
-			start_day = start_work_date.plusDays(1);
+			
+			Turn new_turn = new Turn(name, turn_type, productivity, production, task.get_list_of_operation(), start_work_date, units_quantity);
+			
+			boolean success_box_input = farm.put_boxes(units_quantity, prod, new_turn);
+			
+			if(true) {//success_box_input) {
+				System.out.println(success_box_input);
+				turns.add(new_turn);
+				start_day = start_work_date.plusDays(1);
+			}
 		}
 		for(Turn t: turns) {
 			t.print_values();

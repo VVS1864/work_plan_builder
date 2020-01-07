@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Shelf {
-	List<Box> boxes;
+	private List<Box> boxes;
+	private boolean b;
 	
 	public Shelf() {
 		boxes = new ArrayList<>();
@@ -21,5 +22,12 @@ public class Shelf {
 			}
 		
 		return empty_boxes;
+	}
+	
+	public void put_box(Box new_box) {
+		for(int i = 0; i<boxes.size(); i++) {
+			if(boxes.get(i).is_empty) boxes.set(i, new_box);
+		}
+		
 	}
 }
