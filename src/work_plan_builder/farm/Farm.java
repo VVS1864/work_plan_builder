@@ -46,7 +46,6 @@ public class Farm {
 				successful = true;
 				break;
 			}	
-			
 		}
 		
 		//try to put horizontal (as rows)
@@ -77,9 +76,9 @@ public class Farm {
 	
 	private void make_levels() {
 		for(Production_type prod: levels.keySet()) {
-			for( Stillage st: stillages) {
-				List<Shelf> linked_shelvs = st.get_shelves(prod);
-				levels.get(prod).add(new Level(prod, linked_shelvs));
+			for(Stillage st: stillages) {
+				List<Shelf> linked_shelves = st.get_shelves(prod);
+				levels.get(prod).add(new Level(prod, linked_shelves));
 			}
 		}
 	}

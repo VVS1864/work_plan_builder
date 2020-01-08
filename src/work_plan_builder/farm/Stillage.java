@@ -7,28 +7,40 @@ import java.util.List;
 import work_plan_builder.Production_type;
 
 public class Stillage extends Box_storage{
-	HashMap<Production_type, List<Shelf>> stillage_shelvs = new HashMap<Production_type, List<Shelf>>();
+	
+	HashMap<Production_type, List<Shelf>> stillage_shelves = new HashMap<Production_type, List<Shelf>>();
+	//Temporal hardcode
+	private int middle_num_per_stillage = 2;
+	private int low_num_per_stillage = 1;
+	private int high_num_per_stillage = 1;
+	//Temporal hardcode
 			/*
 			new ArrayList<>{
-		new ArrayList<>shelvs_middle,
-		new ArrayList<>shelvs_low,
-		new ArrayList<>shelvs_high
+		new ArrayList<>shelves_middle,
+		new ArrayList<>shelves_low,
+		new ArrayList<>shelves_high
 	}*/
 			
 	public Stillage() {
-		stillage_shelvs.put(Production_type.middle, new ArrayList<Shelf>());
-		stillage_shelvs.put(Production_type.heavy, new ArrayList<Shelf>());
-		stillage_shelvs.put(Production_type.light, new ArrayList<Shelf>());
+		stillage_shelves.put(Production_type.middle, new ArrayList<Shelf>());
+		stillage_shelves.put(Production_type.heavy, new ArrayList<Shelf>());
+		stillage_shelves.put(Production_type.light, new ArrayList<Shelf>());
 
-		make_shelvs();
+		make_shelves();
 	}
 	
-	private void make_shelvs() {
-		for(Production_type prod: stillage_shelvs.keySet()) {
-			List<Shelf> shs = stillage_shelvs.get(prod);			
-			shs.add(new Shelf());
-				//List<Shelf> linked_shelvs = st.get_shelves(prod);
-				//levels.get(prod).add(new Level(prod, linked_shelvs));
+	private void make_shelves() {
+		for(Production_type prod: stillage_shelves.keySet()) {
+			List<Shelf> shs = stillage_shelves.get(prod);	
+			int[] capacity = {middle_num_per_stillage, low_num_per_stillage, high_num_per_stillage};
+			for(int num: capacity) {
+				for(int i=0; i<num; i++) {
+					shs.add(new Shelf());
+				}
+			}
+			
+				//List<Shelf> linked_shelves = st.get_shelves(prod);
+				//levels.get(prod).add(new Level(prod, linked_shelves));
 			
 		}		
 				
@@ -36,18 +48,18 @@ public class Stillage extends Box_storage{
 
 	public int get_size() {
 		int stillage_size = 0;
-		for(List<Shelf> list: stillage_shelvs.values()) {
-			stillage_size += get_shelvs_size(list);
+		for(List<Shelf> list: stillage_shelves.values()) {
+			stillage_size += get_shelves_size(list);
 		}
 		
 		return stillage_size;
 		
 	}
 	
-	private int get_shelvs_size(List<Shelf> shelvs) {
+	private int get_shelves_size(List<Shelf> shelves) {
 		int shelf_size = 0;
-		for (Shelf s: shelvs) {
-			shelf_size+=s.get_size();
+		for (Shelf s: shelves) {
+			shelf_size+=Shelf.shelf_size;
 		}
 		return shelf_size;
 	}
@@ -56,19 +68,19 @@ public class Stillage extends Box_storage{
 		
 		/*
 		int empty_boxes = 0;
-		List<Shelf> list_shelvs = stillage_shelvs.get(prod);
-		for (Shelf s: list_shelvs) {
+		List<Shelf> list_shelves = stillage_shelves.get(prod);
+		for (Shelf s: list_shelves) {
 			empty_boxes+=s.get_empty_boxes();
 		}
 		*/
-		return super.get_empty_boxes(stillage_shelvs.get(prod));
+		return super.get_empty_boxes(stillage_shelves.get(prod));
 	}
 
 	public void put_boxes(List<Box> new_boxes, Production_type prod) {
-		super.put_boxes(new_boxes, stillage_shelvs.get(prod));
+		super.put_boxes(new_boxes, stillage_shelves.get(prod));
 		/*
 		int fixed_boxes = 0;
-		for(Shelf sh: stillage_shelvs.get(prod)) {
+		for(Shelf sh: stillage_shelves.get(prod)) {
 			int empty = sh.get_empty_boxes();
 			int unfixed_boxes = new_boxes.size() - fixed_boxes;
 			while(unfixed_boxes<=empty) {
@@ -83,11 +95,11 @@ public class Stillage extends Box_storage{
 	}
 	
 	public List<Shelf> get_shelves(Production_type prod){
-		List<Shelf> ret_shelvs = new ArrayList<>();
-		for(Shelf sh: stillage_shelvs.get(prod)) {
-			ret_shelvs.add(sh);
+		List<Shelf> ret_shelves = new ArrayList<>();
+		for(Shelf sh: stillage_shelves.get(prod)) {
+			ret_shelves.add(sh);
 		}
-		return ret_shelvs;
+		return ret_shelves;
 	}
 	
 	

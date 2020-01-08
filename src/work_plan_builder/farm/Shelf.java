@@ -4,29 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Shelf {
-	private List<Box> boxes;
-	private boolean b;
 	
+	public static final int shelf_size = 18;
+	protected List<Box> boxes;
+	private boolean is_empty = true;
+		
 	public Shelf() {
 		boxes = new ArrayList<>();
+		make_boxes();
 	}
 	
-	public int get_size() {
-		return boxes.size();
-	}
-
-	public int get_empty_boxes() {
-		int empty_boxes = 0;
-		for(Box box:boxes) {
-			if(box.is_empty) empty_boxes += 1;
-			}
+	private void make_boxes() {
+		for(int i = 0; i<shelf_size; i++) {
+			boxes.add(new Box());
+		}
 		
-		return empty_boxes;
+	}	
+	
+	public boolean is_empty() {
+		return is_empty;
 	}
 	
-	public void put_box(Box new_box) {
-		for(int i = 0; i<boxes.size(); i++) {
-			if(boxes.get(i).is_empty) boxes.set(i, new_box);
+	public void put_boxes(List<Box> new_boxes) {
+		if(boxes.size() == new_boxes.size()) {
+			boxes = new_boxes;
+			is_empty = false;
+		}
+		else {
+			System.err.println("Put boxes error. List size of new boxes is not equal to shelf size");
 		}
 		
 	}

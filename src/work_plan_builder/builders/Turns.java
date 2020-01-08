@@ -9,10 +9,14 @@ import work_plan_builder.Production_type;
 import work_plan_builder.abstract_parts.Hard_work;
 import work_plan_builder.farm.Box;
 import work_plan_builder.farm.Farm;
+import work_plan_builder.farm.Shelf;
 import work_plan_builder.plan_parts.Turn;
 import work_plan_builder.plan_parts.Work_task;
 
 public class Turns {
+	/**
+	 * coefficient of supply
+	 */
 	private double K = 1.15;
 	private int name_count = 0;
 	private Work_task[] tasks;
@@ -42,7 +46,12 @@ public class Turns {
 	private List<Turn> make_turns(Work_task task) {
 		int work_period = task.get_work_period();
 		int turns_quantity = task.get_delivery_days().size()*4;
+		
 		int units_quantity = (int)Math.ceil(task.get_required_production()*K/task.get_productivity_per_unit());
+		int shelves_quantity = (int)Math.ceil(units_quantity*1.0/Shelf.shelf_size);
+		//complete quantity to multiple shelf size
+		units_quantity = Shelf.shelf_size * shelves_quantity;
+		
 		double productivity = task.get_productivity_per_unit();
 		double production = productivity*units_quantity;
 		List<Turn> turns = new ArrayList<Turn>();
@@ -84,11 +93,12 @@ public class Turns {
 			Turn new_turn = new Turn(name, turn_type, productivity, production, task.get_list_of_operation(), start_work_date, units_quantity);
 			
 			boolean success_box_input = farm.put_boxes(units_quantity, prod, new_turn);
-			
-			if(true) {//success_box_input) {
-				System.out.println(success_box_input);
+			if(success_box_input) {
 				turns.add(new_turn);
 				start_day = start_work_date.plusDays(1);
+			}
+			else {
+				System.err.println("There are not empty boxes for put new turn!");
 			}
 		}
 		for(Turn t: turns) {
