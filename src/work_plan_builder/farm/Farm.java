@@ -82,4 +82,8 @@ public class Farm {
 			}
 		}
 	}
+	
+	public List<Stillage> get_stillages(){
+		return stillages;
+	}
 }

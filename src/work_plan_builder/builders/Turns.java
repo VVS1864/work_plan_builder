@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.miachm.sods.Color;
+
 import work_plan_builder.Production_type;
 import work_plan_builder.abstract_parts.Hard_work;
 import work_plan_builder.farm.Box;
@@ -80,6 +82,27 @@ public class Turns {
 				prod = Production_type.light;
 			}
 		}
+		
+		int color_ind = 0;
+		Color[] color_set = new Color[] {
+				new Color(255, 255, 100),
+				new Color(100, 255, 100),
+				new Color(0, 255, 100),
+				
+				new Color(255, 0, 100),
+				new Color(255, 0, 255),
+				new Color(255, 100, 100),
+				new Color(255, 255, 150),
+				/*
+				new Color(255, 2, 50),
+				new Color(0, 0, 50),
+				new Color(40, 10, 50),
+				new Color(255, 255, 50),
+				new Color(0, 255, 255),
+				new Color(255, 255, 0),
+				*/
+		};
+		
 		//Temporal hardcode
 		
 		for(int i = 0; i<turns_quantity; i++) {
@@ -90,7 +113,9 @@ public class Turns {
 			LocalDate end_work_date = calc_end_work_date(delivery_days, work_period, start_day);
 			LocalDate start_work_date = end_work_date.minusDays(work_period);
 			
-			Turn new_turn = new Turn(name, turn_type, productivity, production, task.get_list_of_operation(), start_work_date, units_quantity);
+			Turn new_turn = new Turn(name, turn_type, productivity, production, task.get_list_of_operation(), start_work_date, units_quantity, color_set[color_ind]);
+			color_ind++;
+			if(color_ind>=color_set.length) color_ind =0;
 			
 			boolean success_box_input = farm.put_boxes(units_quantity, prod, new_turn);
 			if(success_box_input) {

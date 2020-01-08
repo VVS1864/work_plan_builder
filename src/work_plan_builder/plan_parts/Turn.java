@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.miachm.sods.Color;
+
 import work_plan_builder.Production_type;
 import work_plan_builder.abstract_parts.Composite_work;
 import work_plan_builder.abstract_parts.Hard_work;
@@ -18,14 +20,16 @@ public class Turn extends Composite_work{
 	private List<Box> boxes;
 	//private Production_type prod_type;
 	private List<Hard_work> hard_works = new ArrayList<>();
+	public Color c;
 	
 	public Turn(String name, String production_type, double prodyctivity, double required_production, 
-			List<Work_process> list_of_processes, LocalDate start_date,  int units_quantity){
+			List<Work_process> list_of_processes, LocalDate start_date,  int units_quantity, Color color){
 		super(production_type, prodyctivity, required_production, list_of_processes);
 		this.name = name;
 		this.start_date = start_date;	
 		this.end_date = calc_end_date();
 		this.units_quantity = units_quantity;
+		this.c = color;
 		/*
 		boxes = new ArrayList<>();
 		for(int i=0; i<units_quantity; i++) {

@@ -2,6 +2,7 @@ package work_plan_builder;
 
 import java.time.LocalDate;
 
+import work_plan_builder.builders.Farm_map_builder;
 import work_plan_builder.builders.Plan_table_builder;
 import work_plan_builder.builders.Turns;
 import work_plan_builder.builders.Work_plan_builder;
@@ -20,7 +21,14 @@ public class Core {
 		calc_turns(farm);
 		build_plan_table();
 		build_work_plan();
-		write_plans_to_ods();
+		build_farm_map(farm);
+		//write_plans_to_ods();
+		
+		
+	}
+
+	private void build_farm_map(Farm farm) {
+		Farm_map_builder map = new Farm_map_builder(farm);
 		
 	}
 

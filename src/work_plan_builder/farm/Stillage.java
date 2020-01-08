@@ -32,8 +32,13 @@ public class Stillage extends Box_storage{
 	private void make_shelves() {
 		for(Production_type prod: stillage_shelves.keySet()) {
 			List<Shelf> shs = stillage_shelves.get(prod);	
-			int[] capacity = {middle_num_per_stillage, low_num_per_stillage, high_num_per_stillage};
-			for(int num: capacity) {
+			int num = 0;
+			switch(prod) {
+			
+				case light: num = 1;
+				case heavy: num = 1;
+				case middle: num = 2;
+	
 				for(int i=0; i<num; i++) {
 					shs.add(new Shelf());
 				}
@@ -102,6 +107,4 @@ public class Stillage extends Box_storage{
 		return ret_shelves;
 	}
 	
-	
-
 }

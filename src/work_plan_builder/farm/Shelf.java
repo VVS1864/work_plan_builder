@@ -33,6 +33,9 @@ public class Shelf {
 		else {
 			System.err.println("Put boxes error. List size of new boxes is not equal to shelf size");
 		}
-		
 	}
+	public List<Box> get_boxes(){
+		return boxes;
+	}
+	
 }

@@ -26,8 +26,13 @@ public class Task_loader {
 		list_of_processes_1.add(new Work_process("Проращивание", 2));
 		list_of_processes_1.add(new Work_process("Аэропоника", 6));
 		tasks[1] = new Work_task("Подсолнечник", 0.4, 11, delivery_days, list_of_processes_1);
+		/*
+		list_of_processes_1 = new ArrayList<>();
+		list_of_processes_1.add(new Work_process("Проращивание", 4));
+		list_of_processes_1.add(new Work_process("Аэропоника", 15));
+		tasks[2] = new Work_task("Редис", 0.4, 2, delivery_days, list_of_processes_1);
 		//tasks[0].print_values();
-		
+		*/
 		//Temporal hardcode
 	}
 	
