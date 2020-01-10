@@ -25,7 +25,7 @@ public class Task_loader {
 		list_of_processes_1 = new ArrayList<>();
 		list_of_processes_1.add(new Work_process("Проращивание", 2));
 		list_of_processes_1.add(new Work_process("Аэропоника", 6));
-		tasks.add(new Work_task("Подсолнечник", 0.4, 4, delivery_days, list_of_processes_1));
+		tasks.add(new Work_task("Подсолнечник", 0.4, 4, delivery_days, list_of_processes_1, true, 9));
 		/*
 		list_of_processes_1 = new ArrayList<>();
 		list_of_processes_1.add(new Work_process("Проращивание", 4));

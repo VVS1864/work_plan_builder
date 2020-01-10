@@ -48,12 +48,16 @@ public class Turns {
 	private List<Turn> make_turns(Work_task task) {
 		int work_period = task.get_work_period();
 		int turns_quantity = task.get_delivery_days().size()*4;
-		
-		int units_quantity = (int)Math.ceil(task.get_required_production()*K/task.get_productivity_per_unit());
-		int shelves_quantity = (int)Math.ceil(units_quantity*1.0/Shelf.shelf_size);
-		//complete quantity to multiple shelf size
-		units_quantity = Shelf.shelf_size * shelves_quantity;
-		
+		int units_quantity = 0;
+		if(task.manual_size()) {
+			units_quantity = task.get_units_quantity();
+		}
+		else {
+			//caclulate quantity and complete it to multiple shelf size
+			units_quantity = (int)Math.ceil(task.get_required_production()*K/task.get_productivity_per_unit());
+			int shelves_quantity = (int)Math.ceil(units_quantity*1.0/Shelf.shelf_size);
+			units_quantity = Shelf.shelf_size * shelves_quantity;
+		}
 		double productivity = task.get_productivity_per_unit();
 		double production = productivity*units_quantity;
 		List<Turn> turns = new ArrayList<Turn>();

@@ -9,9 +9,6 @@ import java.util.List;
 
 import com.github.miachm.sods.Sheet;
 import com.github.miachm.sods.SpreadSheet;
-import com.github.miachm.sods.Style;
-
-import work_plan_builder.plan_parts.Turn;
 
 public abstract class Ods_builder {
 	protected Sheet sheet;
