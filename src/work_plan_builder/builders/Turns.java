@@ -21,14 +21,14 @@ public class Turns {
 	 */
 	private double K = 1.15;
 	private int name_count = 0;
-	private Work_task[] tasks;
+	private List<Work_task> tasks;
 	private List<Turn> turns = new ArrayList<>();
 	private LocalDate start_work_plan_date;
 	private LocalDate end_last_work_date;
 	private int work_period = 0;
 	private Farm farm;
 	
-	public Turns(Farm farm, Work_task[] tasks, LocalDate start_work_plan_date){
+	public Turns(Farm farm, List<Work_task> tasks, LocalDate start_work_plan_date){
 		this.farm = farm;
 		this.tasks = tasks;
 		this.start_work_plan_date = start_work_plan_date;
@@ -117,14 +117,14 @@ public class Turns {
 			color_ind++;
 			if(color_ind>=color_set.length) color_ind =0;
 			
-			boolean success_box_input = farm.put_boxes(units_quantity, prod, new_turn);
-			if(success_box_input) {
+			//boolean success_box_input = farm.put_boxes(units_quantity, prod, new_turn);
+			//if(success_box_input) {
 				turns.add(new_turn);
 				start_day = start_work_date.plusDays(1);
-			}
-			else {
-				System.err.println("There are not empty boxes for put new turn!");
-			}
+			//}
+			//else {
+			//	System.err.println("There are not empty boxes for put new turn!");
+			//}
 		}
 		for(Turn t: turns) {
 			t.print_values();

@@ -9,7 +9,7 @@ import work_plan_builder.abstract_parts.Work_process;
 import work_plan_builder.plan_parts.Work_task;
 
 public class Task_loader {
-	private Work_task[] tasks = new Work_task[2];
+	private List<Work_task> tasks = new ArrayList<Work_task>();
 	
 	public Task_loader(){
 		//Temporal hardcode
@@ -20,12 +20,12 @@ public class Task_loader {
 		List<Work_process> list_of_processes_1 = new ArrayList<>();
 		list_of_processes_1.add(new Work_process("Проращивание", 4));
 		list_of_processes_1.add(new Work_process("Аэропоника", 15));
-		tasks[0] = new Work_task("Базилик", 0.4, 11, delivery_days, list_of_processes_1);
+		tasks.add(new Work_task("Базилик", 0.4, 11, delivery_days, list_of_processes_1));
 		
 		list_of_processes_1 = new ArrayList<>();
 		list_of_processes_1.add(new Work_process("Проращивание", 2));
 		list_of_processes_1.add(new Work_process("Аэропоника", 6));
-		tasks[1] = new Work_task("Подсолнечник", 0.4, 11, delivery_days, list_of_processes_1);
+		tasks.add(new Work_task("Подсолнечник", 0.4, 4, delivery_days, list_of_processes_1));
 		/*
 		list_of_processes_1 = new ArrayList<>();
 		list_of_processes_1.add(new Work_process("Проращивание", 4));
@@ -40,8 +40,8 @@ public class Task_loader {
 		return LocalDate.of(2019, 11, 19);
 	}
 	
-	Work_task[] get_task_list() {
-		return tasks.clone();
+	public List<Work_task> get_task_list() {
+		return new ArrayList<Work_task>(tasks);
 	}
 	
 

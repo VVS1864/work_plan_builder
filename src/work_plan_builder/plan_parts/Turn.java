@@ -41,14 +41,14 @@ public class Turn extends Composite_work{
 	}
 	
 	private void make_hard_works() {
-		hard_works.add(new Hard_work("Посадка", start_date, units_quantity, 0));
+		hard_works.add(new Hard_work("Посадка", start_date, units_quantity, 0, this));
 		
 		//Temporary hardcode
-		hard_works.add(new Hard_work("Перенос в аэропонику", list_of_operation.get(0).get_end_date(), units_quantity, 0));
+		hard_works.add(new Hard_work("Перенос в аэропонику", list_of_operation.get(0).get_end_date(), units_quantity, 0, this));
 		//Temporary hardcode
 		
-		hard_works.add(new Hard_work("Срезка", end_date, units_quantity, 0));
-		hard_works.add(new Hard_work("Мытье лотков", end_date, units_quantity, 0));
+		hard_works.add(new Hard_work("Срезка", end_date, units_quantity, 0, this));
+		hard_works.add(new Hard_work("Мытье лотков", end_date, units_quantity, 0, this));
 		
 		
 	}
@@ -85,6 +85,10 @@ public class Turn extends Composite_work{
 			h.print_values();
 		}
 		
+	}
+	
+	public List<Hard_work> get_hardwork_list(){
+		return hard_works;
 	}
 
 	public String get_name() {

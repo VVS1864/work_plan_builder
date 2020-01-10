@@ -34,15 +34,14 @@ public class Stillage extends Box_storage{
 			List<Shelf> shs = stillage_shelves.get(prod);	
 			int num = 0;
 			switch(prod) {
-			
-				case light: num = 1;
-				case heavy: num = 1;
-				case middle: num = 2;
-	
-				for(int i=0; i<num; i++) {
-					shs.add(new Shelf());
-				}
+				case light: num = 1; break;
+				case heavy: num = 1; break;
+				case middle: num = 2; break;
 			}
+			for(int i=0; i<num; i++) {
+				shs.add(new Shelf());
+			}
+			
 			
 				//List<Shelf> linked_shelves = st.get_shelves(prod);
 				//levels.get(prod).add(new Level(prod, linked_shelves));
