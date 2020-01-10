@@ -1,15 +1,7 @@
 package work_plan_builder.builders;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-
 import com.github.miachm.sods.Color;
-import com.github.miachm.sods.Sheet;
-import com.github.miachm.sods.SpreadSheet;
 
 import work_plan_builder.abstract_parts.Work_process;
 import work_plan_builder.plan_parts.Turn;
@@ -17,7 +9,7 @@ import work_plan_builder.plan_parts.Turn;
 public class Plan_table_builder extends Ods_builder{
 	
 	public Plan_table_builder(Turns turns){
-		super(turns);
+		super(turns, "Plan Table");
 	}
 	
 	@Override
@@ -29,16 +21,6 @@ public class Plan_table_builder extends Ods_builder{
 		sheet.getRange(0, 4).setValue("Стадия");
 	}
 
-	/*
-	private void create_dates(LocalDate start_work_date, int columns) {
-		for(int column = init_table_column; column<columns; column++) {
-			
-			sheet.getRange(1, column).setValue(start_work_date.format(DateTimeFormatter.ofPattern("EEEEE, dd MMM")));
-			start_work_date = start_work_date.plusDays(1);
-		}
-		
-	}
-*/
 	private void set_cells(int start_column, int end_column, int current_row, Color c) {
 		for(int i = start_column; i <= end_column; i++) {
 			sheet.getRange(current_row, i).setBackgroundColor(c);

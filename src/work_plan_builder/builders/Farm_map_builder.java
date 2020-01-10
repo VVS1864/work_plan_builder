@@ -2,11 +2,8 @@ package work_plan_builder.builders;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.github.miachm.sods.Color;
-import com.github.miachm.sods.Range;
 import com.github.miachm.sods.Sheet;
 import com.github.miachm.sods.SpreadSheet;
 
@@ -17,7 +14,7 @@ import work_plan_builder.farm.Production_map;
 import work_plan_builder.farm.Shelf;
 import work_plan_builder.farm.Stillage;
 
-public class Farm_map_builder {
+public class Farm_map_builder{
 	private Sheet sheet;
 
 	public Farm_map_builder(Farm farm) {

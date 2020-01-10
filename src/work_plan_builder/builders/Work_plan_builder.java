@@ -1,28 +1,17 @@
 package work_plan_builder.builders;
 
-import java.io.File;
-import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import com.github.miachm.sods.Range;
-import com.github.miachm.sods.Sheet;
-import com.github.miachm.sods.SpreadSheet;
-import com.github.miachm.sods.Style;
 
 import work_plan_builder.abstract_parts.Hard_work;
 import work_plan_builder.plan_parts.Turn;
 
 public class Work_plan_builder extends Ods_builder{
-		
-	private Range range;
-
+	
 	public Work_plan_builder(Turns turns){
-		super(turns);
+		super(turns, "Work Plan");
 	}
 
 	@Override
@@ -40,7 +29,6 @@ public class Work_plan_builder extends Ods_builder{
 				String prod_name = h.get_turn().get_production_type();
 				
 				String work = String.join("", h_name, " ", prod_name, " ", quantity, " ящиков", " (", turn_name, ")");
-				System.out.println(work);
 				sheet.getRange(current_row, current_column).setValue(work);
 				
 				current_row++;

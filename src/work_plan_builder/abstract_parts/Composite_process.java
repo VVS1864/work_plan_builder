@@ -14,15 +14,6 @@ public class Composite_process extends Composite_work{
 		this.delivery_days = new ArrayList<DayOfWeek>(delivery_days);
 		
 	}
-	/*
-	private void set_delivery_days(String[] s_days){
-		this.delivery_days = new ArrayList<DayOfWeek>();
-		for(String s: s_days) {
-			this.delivery_days.add(DayOfWeek.valueOf(s));
-		}public String get_production_type() {
-		return new String(production_type);
-	}
-	*/
 		
 	public List<DayOfWeek> get_delivery_days() {
 		return new ArrayList<>(delivery_days);
