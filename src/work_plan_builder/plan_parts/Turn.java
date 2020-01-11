@@ -97,6 +97,10 @@ public class Turn extends Composite_work{
 	public int get_units_quantity() {
 		return units_quantity;
 	}
-	
-	
+	public LocalDate get_start_date() {
+		return start_date;
+	}
+	public LocalDate get_end_date() {
+		return end_date;
+	}
 }

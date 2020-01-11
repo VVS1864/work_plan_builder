@@ -2,6 +2,7 @@ package work_plan_builder.builders;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,21 +29,27 @@ public class Turns {
 	private int work_period = 0;
 	private Farm farm;
 	
-	public Turns(Farm farm, List<Work_task> tasks, LocalDate start_work_plan_date){
-		this.farm = farm;
+	public Turns(List<Work_task> tasks, LocalDate start_work_plan_date){
+		
 		this.tasks = tasks;
 		this.start_work_plan_date = start_work_plan_date;
 		for(Work_task task: tasks) {
 			List<Turn> new_turns = make_turns(task);
 			turns.addAll(new_turns);
 		}
-		calc_work_period();
+		calc_end_date_and_work_period();
+		//end_last_work_date = start_work_plan_date.plusDays(work_period);
 	}
 	
-	private void calc_work_period() {
+	private void calc_end_date_and_work_period() {
+		end_last_work_date = start_work_plan_date;
 		for(Turn t: turns) {
-			work_period += t.get_work_period();
+			LocalDate turn_end = t.get_end_date();
+			if(end_last_work_date.isBefore(turn_end)){
+				end_last_work_date = turn_end;
+			}
 		}
+		work_period = (int)ChronoUnit.DAYS.between(start_work_plan_date, end_last_work_date);
 	}
 
 	private List<Turn> make_turns(Work_task task) {
@@ -66,48 +73,7 @@ public class Turns {
 		LocalDate start_day = start_work_plan_date;
 		String turn_type = task.get_production_type();
 		
-		//Temporal hardcode
-		Production_type prod = Production_type.middle;
-		String[] low = {"Подсолнечник", "Горох"};
-		String[] mid = {"Мизуна", "Горчица", "Редис"};
-		String[] high = {"Базилик микро", "Подсолнечник", "Горох"};
-		for (String s: low){
-			if(turn_type.equals(s)) {
-				prod = Production_type.heavy;
-			}
-		}
-		for (String s: mid){
-			if(turn_type.equals(s)) {
-				prod = Production_type.middle;
-			}
-		}
-		for (String s: high){
-			if(turn_type.equals(s)) {
-				prod = Production_type.light;
-			}
-		}
 		
-		int color_ind = 0;
-		Color[] color_set = new Color[] {
-				new Color(255, 255, 100),
-				new Color(100, 255, 100),
-				new Color(0, 255, 100),
-				
-				new Color(255, 0, 100),
-				new Color(255, 0, 255),
-				new Color(255, 100, 100),
-				new Color(255, 255, 150),
-				/*
-				new Color(255, 2, 50),
-				new Color(0, 0, 50),
-				new Color(40, 10, 50),
-				new Color(255, 255, 50),
-				new Color(0, 255, 255),
-				new Color(255, 255, 0),
-				*/
-		};
-		
-		//Temporal hardcode
 		
 		for(int i = 0; i<turns_quantity; i++) {
 			name_count++;
@@ -117,9 +83,21 @@ public class Turns {
 			LocalDate end_work_date = calc_end_work_date(delivery_days, work_period, start_day);
 			LocalDate start_work_date = end_work_date.minusDays(work_period);
 			
+			int color_ind = 0;
+			Color[] color_set = new Color[] {
+					new Color(255, 255, 0),
+					new Color(0, 255, 255),
+					new Color(0, 255, 0),
+					
+					new Color(255, 0, 255),
+					new Color(255, 0, 0),
+					new Color(255, 100, 100),
+					new Color(255, 255, 150),
+							
+							
+			};
 			Turn new_turn = new Turn(name, turn_type, productivity, production, task.get_list_of_operation(), start_work_date, units_quantity, color_set[color_ind]);
-			color_ind++;
-			if(color_ind>=color_set.length) color_ind =0;
+			
 			
 			//boolean success_box_input = farm.put_boxes(units_quantity, prod, new_turn);
 			//if(success_box_input) {
@@ -130,9 +108,11 @@ public class Turns {
 			//	System.err.println("There are not empty boxes for put new turn!");
 			//}
 		}
+		/*
 		for(Turn t: turns) {
 			t.print_values();
 		}
+		*/
 		//System.out.println(turns.size());
 		//System.out.println("turns quantity: " + turns_quantity);
 		//System.out.println("units quantity: " + units_quantity);

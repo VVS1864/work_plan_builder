@@ -33,6 +33,7 @@ public class Work_plan_builder extends Ods_builder{
 				
 				current_row++;
 			}
+			sheet.setColumnWidth(current_column-1, 30.0);
 			current_column++;
 		}
 		

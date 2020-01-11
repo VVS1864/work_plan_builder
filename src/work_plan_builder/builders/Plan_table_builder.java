@@ -1,15 +1,24 @@
 package work_plan_builder.builders;
 
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import com.github.miachm.sods.Color;
+import com.github.miachm.sods.Range;
 
 import work_plan_builder.abstract_parts.Work_process;
 import work_plan_builder.plan_parts.Turn;
+import work_plan_builder.calc.Column_name;
+import work_plan_builder.calc.Statistics;
 
 public class Plan_table_builder extends Ods_builder{
 	
-	public Plan_table_builder(Turns turns){
+	Statistics stat;
+	int current_row;
+	public Plan_table_builder(Turns turns, Statistics stat){
 		super(turns, "Plan Table");
+		this.stat = stat;
+		create_stats();
+		create_sheet();
 	}
 	
 	@Override
@@ -21,11 +30,24 @@ public class Plan_table_builder extends Ods_builder{
 		sheet.getRange(0, 4).setValue("Стадия");
 	}
 
-	private void set_cells(int start_column, int end_column, int current_row, Color c) {
+	private void set_cells(int start_column, int end_column, int current_row, Color c, String text) {
 		for(int i = start_column; i <= end_column; i++) {
 			sheet.getRange(current_row, i).setBackgroundColor(c);
+			sheet.getRange(current_row, i).setValue(text);
 		}
 		
+	}
+	
+	private void create_stats() {
+		LocalDateTime day = stat.get_start_day();
+		//System.out.println(day);
+		for(int col = init_table_column; col<columns; col++) {
+			int chamber_units = stat.get_chamber_units(day);
+			int stillage_units = stat.get_stillage_units(day);
+			sheet.getRange(current_row, col).setValue(chamber_units);
+			sheet.getRange(current_row+1, col).setValue(stillage_units);
+			day = day.plusDays(1);
+		}
 	}
 
 	@Override
@@ -37,7 +59,7 @@ public class Plan_table_builder extends Ods_builder{
 
 	@Override
 	protected void filling_alg() {
-		int current_row = init_table_row;
+		current_row = init_table_row;
 		Color c1 = new Color(255, 255, 0);
 		Color c2 = new Color(255, 0, 0);
 		for (Turn t: turns.get_turns()) {
@@ -52,21 +74,21 @@ public class Plan_table_builder extends Ods_builder{
 	    	
 	    	for(Work_process proc: t.get_list_of_operation()) {
 	    		
-	    		System.out.println(t.get_production_type());
-	    		System.out.println(proc.get_start_date() + " " +  proc.get_name());
+	    		//System.out.println(t.get_production_type());
+	    		//System.out.println(proc.get_start_date() + " " +  proc.get_name());
 	    		int start_column = (int)ChronoUnit.DAYS.between(turns.get_start_work_date(), proc.get_start_date())+init_table_column;
 	    		int end_column = (int)ChronoUnit.DAYS.between(turns.get_start_work_date(), proc.get_end_date())+init_table_column;
-	    		System.out.println(start_column);
-	    		System.out.println(end_column);
-	    		System.out.println(current_row);
+	    		//System.out.println(start_column);
+	    		//System.out.println(end_column);
+	    		//System.out.println(current_row);
 	    		sheet.getRange(current_row, 4).setValue(proc.get_name());
-	    		set_cells(start_column, end_column, current_row, c);
+	    		set_cells(start_column, end_column, current_row, c, t.get_name());
 	    		current_row++;
 	    		c = c2;
 	    	}
 	    	
 	    }
-		
+		current_row++;
 	}
 
 }
