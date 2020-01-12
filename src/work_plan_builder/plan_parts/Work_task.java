@@ -20,7 +20,7 @@ public class Work_task extends Composite_process{
 	public Work_task(String production_type, double prodyctivity, double required_production, 
 			List<DayOfWeek> delivery_days, List<Work_process> list_of_phases, boolean manual_size, int units_quantity){
 		this(production_type, prodyctivity, required_production, delivery_days, list_of_phases);
-		this.manual_size = true;
+		this.manual_size = manual_size;
 		this.units_quantity = units_quantity;
 	}
 	

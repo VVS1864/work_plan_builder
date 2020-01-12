@@ -41,6 +41,8 @@ public class Plan_table_builder extends Ods_builder{
 	private void create_stats() {
 		LocalDateTime day = stat.get_start_day();
 		//System.out.println(day);
+		sheet.getRange(current_row, init_table_column-1).setValue("Камера проращивания");
+		sheet.getRange(current_row+1, init_table_column-1).setValue("Аэропоника");
 		for(int col = init_table_column; col<columns; col++) {
 			int chamber_units = stat.get_chamber_units(day);
 			int stillage_units = stat.get_stillage_units(day);

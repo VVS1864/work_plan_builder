@@ -12,6 +12,7 @@ public class Work_plan_builder extends Ods_builder{
 	
 	public Work_plan_builder(Turns turns){
 		super(turns, "Work Plan");
+		create_sheet();
 	}
 
 	@Override

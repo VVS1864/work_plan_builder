@@ -1,0 +1,32 @@
+{ 
+	"Tasks":[
+		{"production_type": "Базилик",
+		"productivity": "0.4",
+		"required_production": "11",
+		"manual_size": true,
+		"units_quantity": 6,
+		"delivery_days": [
+			"Вт",
+			"Пт"
+		],
+		
+		"list_of_processes": {
+			"Проращивание": "4",
+			"Аэропоника": "15"
+		}
+	},
+		{"production_type": "Руккола",
+		"productivity": "0.4",
+		"required_production": "2",
+		"delivery_days": [
+			"Вт",
+			"Пт"
+		],
+		
+		"list_of_processes": {
+			"Проращивание": "4",
+			"Аэропоника": "15"
+		}
+	},
+	]
+}

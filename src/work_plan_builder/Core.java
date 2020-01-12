@@ -50,7 +50,7 @@ public class Core {
 	}
 
 	private void build_work_plan() {
-		LocalDate start_work_plan_date = task_from_file.get_start_work_plan_date();
+		//LocalDate start_work_plan_date = task_from_file.get_start_work_plan_date();
 		//System.out.println(start_work_plan_date);
 		
 		work_plan = new Work_plan_builder(calculated_turns);
