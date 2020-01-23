@@ -1,10 +1,10 @@
 package work_plan_builder.plan_parts;
 
+import java.awt.Color;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.miachm.sods.Color;
 
 import work_plan_builder.Production_type;
 import work_plan_builder.abstract_parts.Composite_work;
@@ -23,13 +23,13 @@ public class Turn extends Composite_work{
 	public Color c;
 	
 	public Turn(String name, String production_type, double prodyctivity, double required_production, 
-			List<Work_process> list_of_processes, LocalDate start_date,  int units_quantity, Color color){
+			List<Work_process> list_of_processes, LocalDate start_date,  int units_quantity, Color c){
 		super(production_type, prodyctivity, required_production, list_of_processes);
 		this.name = name;
 		this.start_date = start_date;	
 		this.end_date = calc_end_date();
 		this.units_quantity = units_quantity;
-		this.c = color;
+		this.c = c;
 		/*
 		boxes = new ArrayList<>();
 		for(int i=0; i<units_quantity; i++) {

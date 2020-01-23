@@ -7,11 +7,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.miachm.sods.Sheet;
-import com.github.miachm.sods.SpreadSheet;
+import org.jopendocument.dom.spreadsheet.CellStyle;
+import org.jopendocument.dom.spreadsheet.Sheet;
+import org.jopendocument.dom.spreadsheet.SpreadSheet;
+import org.jopendocument.dom.template.engine.DataFormatter;
+import org.jopendocument.model.style.StyleTableCellProperties;
+
 
 public abstract class Ods_builder {
 	protected Sheet sheet;
+	protected SpreadSheet spreadSheet;
 	protected int init_table_column = 0;
 	protected int init_table_row = 0;
 	protected int columns = 1;
@@ -26,8 +31,15 @@ public abstract class Ods_builder {
 		set_initial_cell();
 		rows = turns.get_prosesses_quantity() + 8;
 		columns = turns.get_work_period() + 8;
-		sheet = new Sheet("A", rows, columns);
-
+		try {
+			spreadSheet = SpreadSheet.createFromFile(new File("./default.ods"));
+		}catch(IOException e) {
+			System.err.println("Error, default file not found.");
+		}
+		sheet = spreadSheet.getSheet(0);
+		sheet.setColumnCount(columns);
+		sheet.setRowCount(rows);
+		
 		create_dates(get_date_list(turns.get_start_work_date(), columns));
 		create_top();
 
@@ -36,9 +48,8 @@ public abstract class Ods_builder {
 
 	protected void create_sheet() {
 		try {
-			SpreadSheet spread = new SpreadSheet();
-			spread.appendSheet(sheet);
-			spread.save(new File(table_name + ".ods"));
+			spreadSheet.saveAs(new File(table_name + ".ods"));
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -48,9 +59,6 @@ public abstract class Ods_builder {
 		List<LocalDate> date_set = new ArrayList<>();
 		for (int day = 0; day < days; day++) {
 			date_set.add(start_work_date);
-			// sheet.getRange(1,
-			// day).setValue(start_work_date.format(DateTimeFormatter.ofPattern("EEEEE, dd
-			// MMM")));
 			start_work_date = start_work_date.plusDays(1);
 		}
 		return date_set;
@@ -59,8 +67,12 @@ public abstract class Ods_builder {
 	protected void create_dates(List<LocalDate> date_set) {
 		int day = 0;
 		for (int column = init_table_column; column < date_set.size(); column++) {
-			sheet.getRange(1, column).setValue(date_set.get(day).format(DateTimeFormatter.ofPattern("EEEEE, dd MMM")));
+			//sheet.getRange(1, column).setValue(date_set.get(day).format(DateTimeFormatter.ofPattern("EEEEE, dd MMM")));
+			String fd = date_set.get(day).format(DateTimeFormatter.ofPattern("EE dd MMM"));
+			sheet.setValueAt(fd, column, 1);
 			day++;
+			
+			
 		}
 
 	}

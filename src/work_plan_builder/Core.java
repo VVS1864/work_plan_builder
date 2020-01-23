@@ -1,10 +1,8 @@
 package work_plan_builder;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import work_plan_builder.builders.Farm_map_builder;
 import work_plan_builder.builders.Plan_table_builder;
 import work_plan_builder.builders.Turns;
 import work_plan_builder.builders.Work_plan_builder;
@@ -17,27 +15,22 @@ public class Core {
 	private Plan_table_builder table;
 	private Work_plan_builder work_plan;
 	private Statistics stat;
-	public Core(){
-		String str = "2019-12-08 12:35";
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		LocalDateTime day = LocalDateTime.parse(str, formatter);
-		
+	public Core(){		
 		load_task();
 		Farm farm = new Farm();
 		calc_turns(farm);
 		stat = new Statistics(calculated_turns);
 		build_plan_table(stat);
 		build_work_plan();
-		build_farm_map(farm, stat, day);
+		//build_farm_map(farm, stat, day);
 		//write_plans_to_ods();
 		
 		
 	}
 
-	private void build_farm_map(Farm farm, Statistics st, LocalDateTime day) {
-		Farm_map_builder map = new Farm_map_builder(farm, st, day);
-		
-	}
+	//private void build_farm_map(Farm farm, Statistics st, LocalDateTime day) {
+	//	Farm_map_builder map = new Farm_map_builder(farm, st, day);	
+	//}
 
 	private void calc_turns(Farm farm) {
 		calculated_turns = new Turns(task_from_file.get_task_list(), task_from_file.get_start_work_plan_date());

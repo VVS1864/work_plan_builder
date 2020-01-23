@@ -1,6 +1,7 @@
 package work_plan_builder.farm;
 
-import com.github.miachm.sods.Color;
+
+import java.awt.Color;
 
 import work_plan_builder.plan_parts.Turn;
 
@@ -8,11 +9,12 @@ public class Box {
 	private boolean is_empty = true;
 	Turn turn;
 	public Color c;
+
 	public Box(Turn turn) {
 		this.turn = turn;
 		turn.set_box(this);
-		c = turn.c;
 		is_empty = false;
+		this.c = turn.c;
 	}
 	public Box() {
 		

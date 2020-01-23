@@ -2,9 +2,7 @@ package work_plan_builder.builders;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import com.github.miachm.sods.Color;
-import com.github.miachm.sods.Range;
-
+import java.awt.Color;
 import work_plan_builder.abstract_parts.Work_process;
 import work_plan_builder.plan_parts.Turn;
 import work_plan_builder.calc.Column_name;
@@ -23,17 +21,24 @@ public class Plan_table_builder extends Ods_builder{
 	
 	@Override
 	protected void create_top() {
-		sheet.getRange(0, 0).setValue("Техзадание");
-		sheet.getRange(0, 1).setValue("Величина поставки");
-		sheet.getRange(0, 2).setValue("Лотков");
-		sheet.getRange(0, 3).setValue("Очередь");
-		sheet.getRange(0, 4).setValue("Стадия");
+		//sheet.getRange(0, 0).setValue("Техзадание");
+		//sheet.getRange(0, 1).setValue("Величина поставки");
+		//sheet.getRange(0, 2).setValue("Лотков");
+		//sheet.getRange(0, 3).setValue("Очередь");
+		//sheet.getRange(0, 4).setValue("Стадия");
+		
+		sheet.setValueAt("Техзадание", 0, 0);
+		sheet.setValueAt("Величина поставки", 1, 0);
+		sheet.setValueAt("Лотков", 2, 0);
+		sheet.setValueAt("Очередь", 3, 0);
+		sheet.setValueAt("Стадия", 4, 0);
 	}
 
 	private void set_cells(int start_column, int end_column, int current_row, Color c, String text) {
 		for(int i = start_column; i <= end_column; i++) {
-			sheet.getRange(current_row, i).setBackgroundColor(c);
-			sheet.getRange(current_row, i).setValue(text);
+			sheet.getCellAt(i, current_row).setBackgroundColor(c);
+			sheet.setValueAt(text, i, current_row);
+			
 		}
 		
 	}
@@ -41,13 +46,17 @@ public class Plan_table_builder extends Ods_builder{
 	private void create_stats() {
 		LocalDateTime day = stat.get_start_day();
 		//System.out.println(day);
-		sheet.getRange(current_row, init_table_column-1).setValue("Камера проращивания");
-		sheet.getRange(current_row+1, init_table_column-1).setValue("Аэропоника");
+		//sheet.getRange(current_row, init_table_column-1).setValue("Камера проращивания");
+		//sheet.getRange(current_row+1, init_table_column-1).setValue("Аэропоника");
+		sheet.setValueAt("Камера проращивания", init_table_column-1, current_row);
+		sheet.setValueAt("Аэропоника",  init_table_column-1, current_row+1);
 		for(int col = init_table_column; col<columns; col++) {
 			int chamber_units = stat.get_chamber_units(day);
 			int stillage_units = stat.get_stillage_units(day);
-			sheet.getRange(current_row, col).setValue(chamber_units);
-			sheet.getRange(current_row+1, col).setValue(stillage_units);
+			//sheet.getRange(current_row, col).setValue(chamber_units);
+			//sheet.getRange(current_row+1, col).setValue(stillage_units);
+			sheet.setValueAt(chamber_units, col, current_row);
+			sheet.setValueAt(stillage_units, col, current_row+1);
 			day = day.plusDays(1);
 		}
 	}
@@ -68,11 +77,15 @@ public class Plan_table_builder extends Ods_builder{
 	    	Color c = c1;
 	    	
 			//create_turn_info(t);
-	    	sheet.getRange(current_row, 0).setValue(t.get_production_type());
-	    	sheet.getRange(current_row, 1).setValue(t.get_required_production());
-	    	sheet.getRange(current_row, 2).setValue(t.get_units_quantity());
-	    	sheet.getRange(current_row, 3).setValue(t.get_name());
+	    	//sheet.getRange(current_row, 0).setValue(t.get_production_type());
+	    	//sheet.getRange(current_row, 1).setValue(t.get_required_production());
+	    	//sheet.getRange(current_row, 2).setValue(t.get_units_quantity());
+	    	//sheet.getRange(current_row, 3).setValue(t.get_name());
 	    	
+	    	sheet.setValueAt(t.get_production_type(), 0, current_row);
+	    	sheet.setValueAt(t.get_required_production(), 1, current_row);
+	    	sheet.setValueAt(t.get_units_quantity(), 2, current_row);
+	    	sheet.setValueAt(t.get_name(), 3, current_row);
 	    	
 	    	for(Work_process proc: t.get_list_of_operation()) {
 	    		
@@ -83,7 +96,8 @@ public class Plan_table_builder extends Ods_builder{
 	    		//System.out.println(start_column);
 	    		//System.out.println(end_column);
 	    		//System.out.println(current_row);
-	    		sheet.getRange(current_row, 4).setValue(proc.get_name());
+	    		//sheet.getRange(current_row, 4).setValue(proc.get_name());
+	    		sheet.setValueAt(proc.get_name(), 4, current_row);
 	    		set_cells(start_column, end_column, current_row, c, t.get_name());
 	    		current_row++;
 	    		c = c2;

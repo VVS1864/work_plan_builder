@@ -30,11 +30,12 @@ public class Work_plan_builder extends Ods_builder{
 				String prod_name = h.get_turn().get_production_type();
 				
 				String work = String.join("", h_name, " ", prod_name, " ", quantity, " ящиков", " (", turn_name, ")");
-				sheet.getRange(current_row, current_column).setValue(work);
-				
+				//sheet.getRange(current_row, current_column).setValue(work);
+				sheet.setValueAt(work,  current_column, current_row);
+				sheet.getCellAt(current_column, current_row).setStyleName("wr");
 				current_row++;
 			}
-			sheet.setColumnWidth(current_column-1, 30.0);
+			sheet.getColumn(current_column-1).setWidth(30);//setColumnWidth(current_column-1, 30.0);
 			current_column++;
 		}
 		

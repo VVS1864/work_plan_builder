@@ -2,20 +2,114 @@ package work_plan_builder;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-import org.json.JSONObject;
 
 import work_plan_builder.abstract_parts.Work_process;
 import work_plan_builder.plan_parts.Work_task;
 
 public class Task_loader {
 	private List<Work_task> tasks = new ArrayList<Work_task>();
-
+	Config task_file;
+	
 	public Task_loader() {
-
-		Config task_file = new Config();
+		HashMap<String, DayOfWeek> days = new HashMap<>();
+		days.put("Пн", DayOfWeek.MONDAY);
+		days.put("Вт", DayOfWeek.TUESDAY);
+		days.put("Ср", DayOfWeek.WEDNESDAY);
+		days.put("Чт", DayOfWeek.THURSDAY);
+		days.put("Пт", DayOfWeek.FRIDAY);
+		days.put("Сб", DayOfWeek.SATURDAY);
+		days.put("Вс", DayOfWeek.SUNDAY);
+		
+		HashMap<String, Production_type> prods = new HashMap<>();
+		prods.put("Низ", Production_type.heavy);
+		prods.put("Середина", Production_type.middle);
+		prods.put("Верх", Production_type.light);
+		
+		task_file = new Config();
+		int top_row = 1;
+		int current_row = 2;
+		int max_row = task_file.sheet.getRowCount();
+		int max_col = task_file.sheet.getColumnCount();
+		
+		for(current_row = 2; current_row < max_row; current_row++) {			
+			String task_name = "";
+			Production_type prod = Production_type.middle;
+			double productivity = 0;
+			double required_production = 0;
+			boolean manual_size = false;
+			int units_quantity = 0;
+			LocalDate start_date = null;
+			List<DayOfWeek> delivery_days = new ArrayList<DayOfWeek>();
+			List<Work_process> list_of_processes = new ArrayList<>();
+			if (get_str_value(0, current_row).equals("")) continue;
+			for(int col = 0; col < max_col; col++) {
+				String column_top = get_str_value(col, top_row);
+				String cell_text = get_str_value(col, current_row);
+				if(days.containsKey(column_top)) {
+					if(cell_text.equals("Да")) {
+						delivery_days.add(days.get(column_top));
+					}
+				}
+				else if (column_top.equals("Название продукции")) {
+					task_name = cell_text;
+				}
+				else if (column_top.equals("Длительность аэропоники, суток")) {
+					String work_process_name = "Аэропоника";
+					int work_process_duration = Integer.parseInt(cell_text);
+					list_of_processes.add(new Work_process(work_process_name, work_process_duration));
+				}
+				else if (column_top.equals("Длительность проращивания, суток")) {
+					String work_process_name = "Проращивание";
+					int work_process_duration = Integer.parseInt(cell_text);
+					list_of_processes.add(new Work_process(work_process_name, work_process_duration));
+				}
+				else if (column_top.equals("Расположение на стеллаже")) {
+					prod = prods.get(cell_text);
+				}
+				else if (column_top.equals("Продуктивность, кг/лоток")) {
+					productivity = parse_double(cell_text);
+				}
+				else if (column_top.equals("Величина поставки, кг")) {
+					required_production = parse_double(cell_text);
+				}
+				else if (column_top.equals("Дата начала посадок")) {
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+					start_date = LocalDate.parse(cell_text, formatter);
+				}
+				else if (column_top.equals("Фиксированное количество лотков")) {
+					if(!cell_text.equals("")) {
+						try {
+							units_quantity = Integer.parseInt(cell_text);
+							manual_size = true;
+						} catch(NumberFormatException e) {
+							System.err.println("Incorrect int in " + column_top);
+						}
+					}
+					
+				}
+			}
+			boolean stop_key = false;
+			if(delivery_days.isEmpty()) {
+				System.err.println("Warning! Delivery days not point for " + task_name);
+				stop_key = true;
+			}
+			if(start_date == null) {
+				System.err.println("Warning! Start date not point for " + task_name);
+				stop_key = true;
+			}
+			
+			if(stop_key == false) {
+				tasks.add(new Work_task(task_name, prod, productivity, required_production, delivery_days, list_of_processes,
+					manual_size, units_quantity, start_date));
+			}
+		}
+		
+		/*
 		int task_ind = 0;
 		for (Object task : task_file.config.getJSONArray("Tasks")) {
 			JSONObject jtask = (JSONObject) task;
@@ -73,7 +167,7 @@ public class Task_loader {
 			tasks.add(new Work_task(task_name, productivity, required_production, delivery_days, list_of_processes,
 					manual_size, units_quantity));
 		}
-
+*/
 		/*
 		 * //Temporal hardcode List<DayOfWeek> delivery_days = new
 		 * ArrayList<DayOfWeek>(); delivery_days.add(DayOfWeek.THURSDAY);
@@ -102,9 +196,30 @@ public class Task_loader {
 		 * //Temporal hardcode
 		 */
 	}
+	
+	Double parse_double(String s) {
+		String ss = s.replaceAll(",", ".");
+		double value = 0.0;
+		try{
+			value = Double.parseDouble(ss);
+		}catch(NumberFormatException e) {
+			System.err.println("read config trouble!");
+		}
+		return value;
+	}
+	
+	String get_str_value(int column, int row) {
+		return task_file.sheet.getCellAt(column, row).getTextValue();
+	}
 
 	LocalDate get_start_work_plan_date() {
-		return LocalDate.of(2019, 11, 19);
+		LocalDate first_task = tasks.get(0).get_start_date();
+		for (Work_task t: tasks) {
+			if (first_task.compareTo(t.get_start_date())>0) {
+				first_task = t.get_start_date();
+			}
+		}
+		return first_task;
 	}
 
 	public List<Work_task> get_task_list() {

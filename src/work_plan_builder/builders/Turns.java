@@ -6,7 +6,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.miachm.sods.Color;
+import java.awt.Color;
 
 import work_plan_builder.Production_type;
 import work_plan_builder.abstract_parts.Hard_work;
@@ -70,7 +70,7 @@ public class Turns {
 		List<Turn> turns = new ArrayList<Turn>();
 		List<DayOfWeek> delivery_days = task.get_delivery_days();
 		
-		LocalDate start_day = start_work_plan_date;
+		LocalDate start_day = task.get_start_date();
 		String turn_type = task.get_production_type();
 		
 		
