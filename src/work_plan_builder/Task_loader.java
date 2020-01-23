@@ -60,12 +60,12 @@ public class Task_loader {
 				}
 				else if (column_top.equals("Длительность аэропоники, суток")) {
 					String work_process_name = "Аэропоника";
-					int work_process_duration = Integer.parseInt(cell_text);
+					int work_process_duration = parse_int(cell_text);
 					list_of_processes.add(new Work_process(work_process_name, work_process_duration));
 				}
 				else if (column_top.equals("Длительность проращивания, суток")) {
 					String work_process_name = "Проращивание";
-					int work_process_duration = Integer.parseInt(cell_text);
+					int work_process_duration = parse_int(cell_text);
 					list_of_processes.add(new Work_process(work_process_name, work_process_duration));
 				}
 				else if (column_top.equals("Расположение на стеллаже")) {
@@ -82,24 +82,20 @@ public class Task_loader {
 					start_date = LocalDate.parse(cell_text, formatter);
 				}
 				else if (column_top.equals("Фиксированное количество лотков")) {
-					if(!cell_text.equals("")) {
-						try {
-							units_quantity = Integer.parseInt(cell_text);
-							manual_size = true;
-						} catch(NumberFormatException e) {
-							System.err.println("Incorrect int in " + column_top);
-						}
+					int units_q = parse_int(cell_text);
+					if(units_q>0) {
+						units_quantity = units_q;
+						manual_size = true;
 					}
-					
 				}
 			}
 			boolean stop_key = false;
 			if(delivery_days.isEmpty()) {
-				System.err.println("Warning! Delivery days not point for " + task_name);
+				System.err.println("Warning! Delivery days are not pointed for " + task_name);
 				stop_key = true;
 			}
 			if(start_date == null) {
-				System.err.println("Warning! Start date not point for " + task_name);
+				System.err.println("Warning! Start date is not pointed for " + task_name);
 				stop_key = true;
 			}
 			
@@ -196,14 +192,30 @@ public class Task_loader {
 		 * //Temporal hardcode
 		 */
 	}
+	String replace_all(String s) {
+		s = s.replaceAll(",", ".");
+		s = s.replaceAll(" ", "");
+		return s;
+	}
 	
-	Double parse_double(String s) {
-		String ss = s.replaceAll(",", ".");
+	int parse_int(String s) {
+		String ss = replace_all(s);
+		int value = 0;
+		try{
+			value = Integer.parseInt(ss);
+		}catch(NumberFormatException e) {
+			System.err.println("read config integer trouble!");
+		}
+		return value;
+	}
+	
+	double parse_double(String s) {
+		String ss = replace_all(s);
 		double value = 0.0;
 		try{
 			value = Double.parseDouble(ss);
 		}catch(NumberFormatException e) {
-			System.err.println("read config trouble!");
+			System.err.println("read config double trouble!");
 		}
 		return value;
 	}
