@@ -7,11 +7,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jopendocument.dom.spreadsheet.CellStyle;
+
 import org.jopendocument.dom.spreadsheet.Sheet;
 import org.jopendocument.dom.spreadsheet.SpreadSheet;
-import org.jopendocument.dom.template.engine.DataFormatter;
-import org.jopendocument.model.style.StyleTableCellProperties;
 
 
 public abstract class Ods_builder {

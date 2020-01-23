@@ -209,6 +209,11 @@ public class Task_loader {
 	}
 	
 	String get_str_value(int column, int row) {
+		try {
+			 task_file.sheet.getCellAt(column, row).getTextValue();
+		}catch(Exception e) {
+			System.out.println(column + " " + row);
+		}
 		return task_file.sheet.getCellAt(column, row).getTextValue();
 	}
 

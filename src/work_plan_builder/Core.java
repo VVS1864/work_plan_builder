@@ -1,7 +1,5 @@
 package work_plan_builder;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import work_plan_builder.builders.Plan_table_builder;
 import work_plan_builder.builders.Turns;
@@ -19,9 +17,14 @@ public class Core {
 		load_task();
 		Farm farm = new Farm();
 		calc_turns(farm);
+		
+
 		stat = new Statistics(calculated_turns);
+
 		build_plan_table(stat);
+
 		build_work_plan();
+
 		//build_farm_map(farm, stat, day);
 		//write_plans_to_ods();
 		
