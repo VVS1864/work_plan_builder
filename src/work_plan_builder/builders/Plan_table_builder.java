@@ -25,6 +25,7 @@ public class Plan_table_builder extends Ods_builder{
 		sheet.setValueAt("Лотков", 2, 0);
 		sheet.setValueAt("Очередь", 3, 0);
 		sheet.setValueAt("Стадия", 4, 0);
+		sheet.getColumn(4).setWidth(40);
 	}
 
 	private void set_cells(int start_column, int end_column, int current_row, Color c, String text) {
@@ -40,16 +41,25 @@ public class Plan_table_builder extends Ods_builder{
 		LocalDateTime day = stat.get_start_day();
 		
 		sheet.setValueAt("Камера проращивания", init_table_column-1, current_row);
-		sheet.setValueAt("Аэропоника",  init_table_column-1, current_row+1);
-		sheet.setValueAt("Всего",  init_table_column-1, current_row+2);
+		sheet.setValueAt("Аэропоника всего",  init_table_column-1, current_row+1);
+		sheet.setValueAt("Аэропоника Низ",  init_table_column-1, current_row+2);
+		sheet.setValueAt("Аэропоника Середина",  init_table_column-1, current_row+3);
+		sheet.setValueAt("Аэропоника Верх",  init_table_column-1, current_row+4);
+		sheet.setValueAt("Всего",  init_table_column-1, current_row+5);
 		for(int col = init_table_column; col<columns; col++) {
 			int chamber_units = stat.get_chamber_units(day);
-			int stillage_units = stat.get_stillage_units(day);
-			int total_units = chamber_units+stillage_units;
+			int stillage_total_units = stat.get_stillage_total_units(day);
+			int stillage_light_units = stat.get_stillage_light_units(day);
+			int stillage_heavy_units = stat.get_stillage_heavy_units(day);
+			int stillage_middle_units = stat.get_stillage_middle_units(day);
+			int total_units = chamber_units+stillage_total_units;
 			
 			sheet.setValueAt(chamber_units, col, current_row);
-			sheet.setValueAt(stillage_units, col, current_row+1);
-			sheet.setValueAt(total_units, col, current_row+2);
+			sheet.setValueAt(stillage_total_units, col, current_row+1);
+			sheet.setValueAt(stillage_heavy_units, col, current_row+2);
+			sheet.setValueAt(stillage_middle_units, col, current_row+3);
+			sheet.setValueAt(stillage_light_units, col, current_row+4);
+			sheet.setValueAt(total_units, col, current_row+5);
 			day = day.plusDays(1);
 		}
 	}

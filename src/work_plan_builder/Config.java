@@ -7,10 +7,11 @@ import org.jopendocument.dom.spreadsheet.Sheet;
 import org.jopendocument.dom.spreadsheet.SpreadSheet;
 
 public class Config {
+	public static final String conf_name = "./Задание.ods";
 	public Sheet sheet;
 	
 	public Config() {
-		load_config("./Задание.ods");
+		load_config(conf_name);
 		
 	}
 

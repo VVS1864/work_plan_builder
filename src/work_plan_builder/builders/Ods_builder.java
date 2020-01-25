@@ -27,7 +27,7 @@ public abstract class Ods_builder {
 		this.table_name = name;
 
 		set_initial_cell();
-		rows = turns.get_prosesses_quantity() + 8;
+		rows = turns.get_prosesses_quantity() + 13;
 		columns = turns.get_work_period() + 8;
 		try {
 			spreadSheet = SpreadSheet.createFromFile(new File("./default.ods"));

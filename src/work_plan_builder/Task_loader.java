@@ -194,7 +194,7 @@ public class Task_loader {
 	}
 	String replace_all(String s) {
 		s = s.replaceAll(",", ".");
-		s = s.replaceAll(" ", "");
+		//s = s.replaceAll(" ", "");
 		return s;
 	}
 	

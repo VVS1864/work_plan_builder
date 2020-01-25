@@ -22,9 +22,9 @@ public class Turn extends Composite_work{
 	private List<Hard_work> hard_works = new ArrayList<>();
 	public Color c;
 	
-	public Turn(String name, String production_type, double prodyctivity, double required_production, 
+	public Turn(String name, String production_name, Production_type prod, double prodyctivity, double required_production, 
 			List<Work_process> list_of_processes, LocalDate start_date,  int units_quantity, Color c){
-		super(production_type, prodyctivity, required_production, list_of_processes);
+		super(production_name, prod, prodyctivity, required_production, list_of_processes);
 		this.name = name;
 		this.start_date = start_date;	
 		this.end_date = calc_end_date();

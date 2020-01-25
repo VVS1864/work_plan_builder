@@ -53,6 +53,7 @@ public class Turns {
 	}
 
 	private List<Turn> make_turns(Work_task task) {
+		Production_type prod = task.get_prod();
 		int work_period = task.get_work_period();
 		int turns_quantity = task.get_delivery_days().size()*4;
 		int units_quantity = 0;
@@ -96,7 +97,7 @@ public class Turns {
 							
 							
 			};
-			Turn new_turn = new Turn(name, turn_type, productivity, production, task.get_list_of_operation(), start_work_date, units_quantity, color_set[color_ind]);
+			Turn new_turn = new Turn(name, turn_type, prod, productivity, production, task.get_list_of_operation(), start_work_date, units_quantity, color_set[color_ind]);
 			
 			
 			//boolean success_box_input = farm.put_boxes(units_quantity, prod, new_turn);
