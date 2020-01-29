@@ -34,7 +34,7 @@ public class Task_loader {
 		int top_row = 1;
 		int current_row = 2;
 		int max_row = task_file.sheet.getRowCount();
-		int max_col = task_file.sheet.getColumnCount();
+		int max_col = get_max_col();///20;//task_file.sheet.getColumnCount();
 		
 		for(current_row = 2; current_row < max_row; current_row++) {			
 			String task_name = "";
@@ -46,10 +46,14 @@ public class Task_loader {
 			LocalDate start_date = null;
 			List<DayOfWeek> delivery_days = new ArrayList<DayOfWeek>();
 			List<Work_process> list_of_processes = new ArrayList<>();
-			if (get_str_value(0, current_row).equals("")) continue;
+			
+			if (get_str_value(0, current_row).equals("")) break;
+		
 			for(int col = 0; col < max_col; col++) {
 				String column_top = get_str_value(col, top_row);
 				String cell_text = get_str_value(col, current_row);
+				if (cell_text.equals("")) continue;
+				
 				if(days.containsKey(column_top)) {
 					if(cell_text.equals("Да")) {
 						delivery_days.add(days.get(column_top));
@@ -191,6 +195,18 @@ public class Task_loader {
 		 * 
 		 * //Temporal hardcode
 		 */
+	}
+	private int get_max_col() {
+		for(int col = 0; col < 100; col++) {
+			try {
+				if (get_str_value(col, 1).equals("")) {
+					return col;
+				}
+			}catch(ArrayIndexOutOfBoundsException e) {
+				return col-1;
+			}
+		}
+		return 0;
 	}
 	String replace_all(String s) {
 		s = s.replaceAll(",", ".");
